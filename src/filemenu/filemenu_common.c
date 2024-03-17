@@ -243,8 +243,8 @@ void filemenu_update_cursor(void) {
     s32 yDelta;
     s32 i;
 
-    xDelta = (targetPosX - filemenu_cursor_posX) * 0.5;
-    yDelta = (targetPosY - filemenu_cursor_posY) * 0.5;
+    xDelta = (targetPosX - filemenu_cursor_posX) * 0.25;
+    yDelta = (targetPosY - filemenu_cursor_posY) * 0.25;
 
     if ((targetPosX != filemenu_cursor_posX) || (targetPosY != filemenu_cursor_posY)) {
         if ((xDelta == 0) && (yDelta == 0)) {
@@ -257,12 +257,12 @@ void filemenu_update_cursor(void) {
     filemenu_cursor_posY += yDelta;
 
     if (filemenu_cursorGoalAlpha == 0) {
-        filemenu_cursor_alpha -= 128;
+        filemenu_cursor_alpha -= 64;
         if (filemenu_cursor_alpha < 0) {
             filemenu_cursor_alpha = 0;
         }
     } else {
-        filemenu_cursor_alpha += 32;
+        filemenu_cursor_alpha += 16;
         if (filemenu_cursor_alpha > 255) {
             filemenu_cursor_alpha = 255;
         }
@@ -676,11 +676,11 @@ void filemenu_update_select_file(
     Window* window = &gWindows[windowIdx];
     Window* parent = &gWindows[window->parent];
     s32 updateCounter = window->updateCounter;
-    f32 temp_f4 = updateCounter / 16.0f;
+    f32 temp_f4 = updateCounter / 32.0f;
     s32 widthDelta = (parent->width / 2) - (window->width / 2);
     s32 heightDelta = (parent->height / 2) - (window->height / 2) - 34;
 
-    if (updateCounter < 16) {
+    if (updateCounter < 32) {
         *posX += -window->pos.x + (((f32) (widthDelta - window->pos.x) * temp_f4) + window->pos.x);
         *posY += -window->pos.y + (((f32) (heightDelta - window->pos.y) * temp_f4) + window->pos.y);
     } else {
@@ -701,9 +701,9 @@ void filemenu_update_deselect_file(
 ) {
     Window* window = &gWindows[windowIdx];
     s32 updateCounter = window->updateCounter;
-    f32 temp_f4 = 1.0f - (updateCounter / 16.0f);
+    f32 temp_f4 = 1.0f - (updateCounter / 32.0f);
 
-    if (updateCounter < 16) {
+    if (updateCounter < 32) {
         *posX += -window->pos.x + (((80 - window->pos.x) * temp_f4) + window->pos.x);
         *posY += -window->pos.y + (((36 - window->pos.y) * temp_f4) + window->pos.y);
     } else {
@@ -743,7 +743,7 @@ void filemenu_update_show_name_confirm(
         filemenu_draw_rect(0, 0, SCREEN_WIDTH * 4, SCREEN_HEIGHT * 4, 0, 0, 0, 0, 0);
     }
 
-    counter = updateCounter - 10;
+    counter = updateCounter - 5;
     if (counter < 10) {
         window->flags &= ~WINDOW_FLAG_HIDDEN;
         *posY -= D_80249D34[counter];
