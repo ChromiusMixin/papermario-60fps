@@ -197,7 +197,7 @@ void gfxRetrace_Callback(s32 gfxTaskNum) {
             appendGfx_reset_tile_pattern();
         }
     } else {
-        D_80073E0A ^= 1;
+	D_80073E0A ^= 0;
         if (D_80073E0A == 0) {
             step_game_loop();
             D_80073E08 = 1;
